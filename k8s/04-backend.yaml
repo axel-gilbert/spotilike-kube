@@ -1,10 +1,8 @@
-# Deployment: Kubernetes maintient toujours 2 replicas du backend en vie.
-# Si un pod crash, k8s en recrée un automatiquement.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: todolist
+  namespace: gp-2
 spec:
   replicas: 2
   selector:
@@ -62,13 +60,11 @@ spec:
               memory: "512Mi"
               cpu: "500m"
 ---
-# Service ClusterIP: donne une adresse DNS stable au backend.
-# Le frontend l'atteint via "backend-service:8000".
 apiVersion: v1
 kind: Service
 metadata:
   name: backend-service
-  namespace: todolist
+  namespace: gp-2
 spec:
   selector:
     app: backend

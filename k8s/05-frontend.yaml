@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: todolist
+  namespace: gp-2
 spec:
   replicas: 2
   selector:
@@ -44,12 +44,11 @@ spec:
               memory: "256Mi"
               cpu: "300m"
 ---
-# Service ClusterIP : le frontend est exposé vers l'extérieur via la Route, pas directement.
 apiVersion: v1
 kind: Service
 metadata:
   name: frontend-service
-  namespace: todolist
+  namespace: gp-2
 spec:
   selector:
     app: frontend
@@ -58,21 +57,24 @@ spec:
       targetPort: 3000
   type: ClusterIP
 ---
-# Route OpenShift : objet spécifique OpenShift qui remplace l'Ingress standard.
-# Crée automatiquement une URL HTTPS publique sur le domaine du cluster.
-apiVersion: route.openshift.io/v1
-kind: Route
+# Ingress : expose le frontend en HTTPS public sur le domaine du cluster.
+# Même syntaxe que les exemples du prof (networking.k8s.io/v1).
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
   name: frontend
-  namespace: todolist
+  namespace: gp-2
 spec:
-  host: todolist-groupe-2.apps.openshift.kakor.ovh
-  to:
-    kind: Service
-    name: frontend-service
-    weight: 100
-  port:
-    targetPort: 3000
+  rules:
+    - host: todolist-groupe-2.apps.openshift.kakor.ovh
+      http:
+        paths:
+          - path: ''
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: frontend-service
+                port:
+                  number: 3000
   tls:
-    termination: edge
-    insecureEdgeTerminationPolicy: Redirect
+    - {}

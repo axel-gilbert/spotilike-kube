@@ -1,10 +1,8 @@
-# PersistentVolumeClaim: réserve 1Gi de stockage pour que les données
-# PostgreSQL survivent aux redémarrages de pods.
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc
-  namespace: todolist
+  namespace: gp-2
 spec:
   accessModes:
     - ReadWriteOnce
@@ -12,13 +10,11 @@ spec:
     requests:
       storage: 1Gi
 ---
-# StatefulSet: utilisé pour PostgreSQL car il garantit un identifiant stable
-# et un volume persistant attaché au même pod après redémarrage.
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
-  namespace: todolist
+  namespace: gp-2
 spec:
   serviceName: postgres-service
   replicas: 1
@@ -71,17 +67,15 @@ spec:
           persistentVolumeClaim:
             claimName: postgres-pvc
 ---
-# Service ClusterIP: expose PostgreSQL en interne au cluster uniquement.
-# Les autres pods y accèdent via "postgres-service:5432".
 apiVersion: v1
 kind: Service
 metadata:
   name: postgres-service
-  namespace: todolist
+  namespace: gp-2
 spec:
   selector:
     app: postgres
   ports:
     - port: 5432
       targetPort: 5432
-  clusterIP: None
+  type: ClusterIP

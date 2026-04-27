@@ -35,7 +35,7 @@ TodoList est une application web de gestion de tâches avec authentification JWT
   frontend-service (ClusterIP :3000)
       │
   ┌───┴──────────────────────────────────────┐
-  │           Namespace: todolist             │
+  │           Namespace: gp-2                 │
   │                                          │
   │  Deployment: frontend  (2 replicas)      │
   │  SvelteKit :3000                         │
@@ -121,14 +121,14 @@ oc get pod
 ### 4. Déployer sur OpenShift
 
 ```bash
-kubectl apply -f k8s/
-# ou avec oc :
+# Se placer dans le bon namespace avant d'appliquer
+oc project gp-2
 oc apply -f k8s/
 ```
 
 Vérifier le déploiement :
 ```bash
-oc get all -n todolist
+oc get all -n gp-2
 ```
 
 ### 5. Accéder à l'application

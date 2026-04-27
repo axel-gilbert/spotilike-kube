@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: todolist-config
-  namespace: todolist
+  namespace: gp-2
 data:
   POSTGRES_DB: "todolist"
   POSTGRES_USER: "postgres"
