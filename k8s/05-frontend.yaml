@@ -57,8 +57,8 @@ spec:
       targetPort: 3000
   type: ClusterIP
 ---
-# Ingress : expose le frontend en HTTPS public sur le domaine du cluster.
-# Même syntaxe que les exemples du prof (networking.k8s.io/v1).
+# L'Ingress route /api/* vers le backend et tout le reste vers le frontend,
+# sur le même hostname — évite les problèmes de certificat mixed content.
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -69,8 +69,15 @@ spec:
     - host: todolist-groupe-2.apps.openshift.kakor.ovh
       http:
         paths:
-          - path: ''
-            pathType: ImplementationSpecific
+          - path: /api
+            pathType: Prefix
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8000
+          - path: /
+            pathType: Prefix
             backend:
               service:
                 name: frontend-service

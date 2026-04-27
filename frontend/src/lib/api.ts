@@ -1,5 +1,5 @@
 const API_BASE = typeof window !== 'undefined'
-	? (import.meta.env.VITE_API_BASE_URL || 'https://todolist-api-groupe-2.apps.openshift.kakor.ovh/api')
+	? (import.meta.env.VITE_API_BASE_URL || '/api')
 	: (process.env.API_BASE_URL || 'http://backend-service:8000/api');
 
 function getToken(): string | null {
