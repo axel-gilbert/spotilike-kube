@@ -41,12 +41,52 @@ TodoList est une application web de gestion de tâches avec authentification JWT
 
 ---
 
+## Dépendances
+
+### Backend
+| Dépendance | Version | Rôle |
+|---|---|---|
+| fastapi | 0.104.1 | Framework API REST |
+| uvicorn | 0.24.0 | Serveur ASGI |
+| sqlalchemy | 2.0.23 | ORM base de données |
+| pydantic | 2.4.2 | Validation des données |
+| pydantic-settings | 2.0.3 | Config via variables d'environnement |
+| psycopg2-binary | 2.9.9 | Driver PostgreSQL |
+| python-jose | 3.3.0 | Génération / validation JWT |
+| passlib + bcrypt | 1.7.4 / 4.0.1 | Hashage des mots de passe |
+| alembic | 1.12.1 | Migrations de base de données |
+
+### Frontend
+| Dépendance | Version | Rôle |
+|---|---|---|
+| SvelteKit | 2.0.0 | Framework fullstack |
+| Svelte | 5.0.0 | Framework UI réactif |
+| TypeScript | 5.0.0 | Typage statique |
+| Tailwind CSS | 3.4.9 | Styles utilitaires |
+| Vite | 5.0.3 | Bundler / dev server |
+
+### Infrastructure
+| Dépendance | Version | Rôle |
+|---|---|---|
+| Docker | ≥ 24 | Build et run des containers |
+| PostgreSQL | 14-alpine | Base de données relationnelle |
+| OpenShift / OKD | 4.19 | Orchestrateur Kubernetes |
+
+---
+
 ## Prérequis
 
-- Docker Desktop installé
-- CLI `oc` (OpenShift Client) installé — voir [releases OKD 4.19](https://github.com/okd-project/okd/releases/tag/4.19.0-okd-scos.19)
-- Accès au cluster : `https://console-openshift-console.apps.openshift.kakor.ovh`
-- Accès à la registry : `harbor.kakor.ovh`
+### Pour le test local
+- **Docker Desktop** installé et démarré
+
+### Pour le déploiement OpenShift
+- **CLI `oc`** installé — [télécharger OKD 4.19](https://github.com/okd-project/okd/releases/tag/4.19.0-okd-scos.19)
+  - Windows : copier `oc.exe` dans `C:\Windows\System32`
+  - Linux : copier `oc` dans `/usr/bin/`
+  - Mac : `brew install openshift-cli`
+- Accès au cluster OpenShift : `https://console-openshift-console.apps.openshift.kakor.ovh`
+- Accès à la registry Harbor : `harbor.kakor.ovh` (user: `ipi`)
+- Être membre du groupe 2 (namespace `project-gp-2`)
 
 ---
 

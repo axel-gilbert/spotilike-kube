@@ -7,3 +7,4 @@ node_modules/
 build/
 .svelte-kit/
 *.egg-info/
+.claude/
