@@ -1,0 +1,62 @@
+# Deployment: 2 replicas du frontend SvelteKit.
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend
+  namespace: todolist
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: frontend
+  template:
+    metadata:
+      labels:
+        app: frontend
+    spec:
+      containers:
+        - name: frontend
+          image: todolist-frontend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NODE_ENV
+              value: "production"
+            - name: PORT
+              value: "3000"
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 20
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "50m"
+            limits:
+              memory: "256Mi"
+              cpu: "300m"
+---
+# Service NodePort: expose le frontend sur un port de chaque nœud du cluster,
+# accessible depuis l'extérieur (navigateur) via http://NODE_IP:30300
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-service
+  namespace: todolist
+spec:
+  selector:
+    app: frontend
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30300
+  type: NodePort

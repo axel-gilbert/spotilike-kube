@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: todolist-config
+  namespace: todolist
+data:
+  POSTGRES_DB: "todolist"
+  POSTGRES_USER: "postgres"
+  ALGORITHM: "HS256"
+  ACCESS_TOKEN_EXPIRE_MINUTES: "30"

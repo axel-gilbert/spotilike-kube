@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/k8s\")",
+      "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/api/endpoints\")",
+      "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/core\")",
+      "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/db\")",
+      "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/models\")",
+      "Bash(curl *)"
+    ]
+  }
+}
