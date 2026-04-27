@@ -72,3 +72,23 @@ spec:
     - port: 8000
       targetPort: 8000
   type: ClusterIP
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: backend
+  namespace: project-gp-2
+spec:
+  rules:
+    - host: todolist-api-groupe-2.apps.openshift.kakor.ovh
+      http:
+        paths:
+          - path: ''
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: backend-service
+                port:
+                  number: 8000
+  tls:
+    - {}
