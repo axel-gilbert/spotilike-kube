@@ -1,22 +1,9 @@
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: postgres-pvc
-  namespace: project-gp-2
-spec:
-  accessModes:
-    - ReadWriteOnce
-  resources:
-    requests:
-      storage: 1Gi
----
 apiVersion: apps/v1
-kind: StatefulSet
+kind: Deployment
 metadata:
   name: postgres
   namespace: project-gp-2
 spec:
-  serviceName: postgres-service
   replicas: 1
   selector:
     matchLabels:
@@ -64,8 +51,7 @@ spec:
               cpu: "500m"
       volumes:
         - name: postgres-storage
-          persistentVolumeClaim:
-            claimName: postgres-pvc
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
