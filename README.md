@@ -178,3 +178,4 @@ https://todolist-groupe-2.apps.openshift.kakor.ovh
 - Les Dockerfiles créent un **utilisateur non-root** (`appuser`) — requis par OpenShift qui refuse les containers root.
 - PostgreSQL n'est accessible que via un **Service ClusterIP** interne — aucun accès depuis l'extérieur du cluster.
 - En production, remplacer la clé JWT par une valeur forte : `openssl rand -base64 32`.
+- Le volume PostgreSQL utilise `emptyDir` (éphémère) en raison d'un bug d'attachement de volume sur l'infrastructure OpenStack du cluster. En production, remplacer par un PersistentVolumeClaim.
