@@ -24,42 +24,7 @@ TodoList est une application web de gestion de tâches avec authentification JWT
 
 ## Architecture
 
-```
-  Navigateur
-      │ HTTPS
-      ▼
-  Route OpenShift
-  todolist-groupe-2.apps.openshift.kakor.ovh
-      │
-      ▼
-  frontend-service (ClusterIP :3000)
-      │
-  ┌───┴──────────────────────────────────────┐
-  │           Namespace: project-gp-2                 │
-  │                                          │
-  │  Deployment: frontend  (2 replicas)      │
-  │  SvelteKit :3000                         │
-  │         │ HTTP /api/*                    │
-  │  Service: backend-service (ClusterIP)    │
-  │         │                               │
-  │  Deployment: backend   (2 replicas)      │
-  │  FastAPI :8000                           │
-  │         │ SQL                           │
-  │  Service: postgres-service (ClusterIP)   │
-  │         │                               │
-  │  StatefulSet: postgres  (1 replica)      │
-  │  PostgreSQL :5432                        │
-  │         │                               │
-  │  PersistentVolumeClaim  (1 Gi)           │
-  │                                          │
-  │  Secret: todolist-secrets                │
-  │  (postgres-password, jwt-secret-key,     │
-  │   database-url)                          │
-  │                                          │
-  │  ConfigMap: todolist-config              │
-  │  (POSTGRES_DB, ALGORITHM, ...)           │
-  └──────────────────────────────────────────┘
-```
+![Diagramme Kubernetes](diagram-kube.png)
 
 ### Objets Kubernetes/OpenShift utilisés
 
@@ -136,6 +101,10 @@ oc get all -n project-gp-2
 ```
 https://todolist-groupe-2.apps.openshift.kakor.ovh
 ```
+
+## Capture d'écran
+
+![Application TodoList déployée sur OpenShift](todolist-prod.png)
 
 ---
 
