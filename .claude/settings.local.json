@@ -9,7 +9,12 @@
       "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/core\")",
       "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/db\")",
       "Bash(mkdir -p \"/c/Users/axelg/Desktop/project/spotilike-kube/backend/app/models\")",
-      "Bash(curl *)"
+      "Bash(curl *)",
+      "Bash(sed -i 's/namespace: gp-2/namespace: project-gp-2/g' 01-secrets.yaml 02-configmap.yaml 03-postgres.yaml 04-backend.yaml 05-frontend.yaml)",
+      "Read(//c/c/Users/axelg/Desktop/project/spotilike-kube/**)",
+      "Bash(sed -i 's/oc project gp-2/oc project project-gp-2/g' README.md)",
+      "Bash(sed -i 's/-n gp-2/-n project-gp-2/g' README.md)",
+      "Bash(sed -i 's/Namespace: gp-2/Namespace: project-gp-2/g' README.md)"
     ]
   }
 }

@@ -35,7 +35,7 @@ TodoList est une application web de gestion de tâches avec authentification JWT
   frontend-service (ClusterIP :3000)
       │
   ┌───┴──────────────────────────────────────┐
-  │           Namespace: gp-2                 │
+  │           Namespace: project-gp-2                 │
   │                                          │
   │  Deployment: frontend  (2 replicas)      │
   │  SvelteKit :3000                         │
@@ -65,14 +65,14 @@ TodoList est une application web de gestion de tâches avec authentification JWT
 
 | Objet | Rôle |
 |-------|------|
-| **Namespace** | Espace isolé `todolist` pour toutes les ressources du groupe |
+| **Namespace** | Espace isolé `project-gp-2` pour toutes les ressources du groupe |
 | **Secret** | Stocke les données sensibles (mot de passe BDD, clé JWT) en base64 |
 | **ConfigMap** | Stocke la configuration non-sensible (nom BDD, algorithme JWT) |
 | **StatefulSet** | Déploie PostgreSQL avec identité et stockage stables |
 | **PersistentVolumeClaim** | Réserve 1Gi de disque — les données survivent aux redémarrages |
 | **Deployment** | Déploie backend et frontend avec 2 replicas, redémarrage automatique |
 | **Service ClusterIP** | Adresse DNS interne stable pour chaque composant |
-| **Route** | Objet OpenShift : expose le frontend en HTTPS public (remplace l'Ingress) |
+| **Ingress** | Expose le frontend en HTTPS public sur le domaine du cluster |
 
 ---
 
@@ -122,13 +122,13 @@ oc get pod
 
 ```bash
 # Se placer dans le bon namespace avant d'appliquer
-oc project gp-2
+oc project project-gp-2
 oc apply -f k8s/
 ```
 
 Vérifier le déploiement :
 ```bash
-oc get all -n gp-2
+oc get all -n project-gp-2
 ```
 
 ### 5. Accéder à l'application
@@ -161,7 +161,6 @@ https://todolist-groupe-2.apps.openshift.kakor.ovh
 │       ├── lib/stores.ts       # Store Svelte (token JWT, user)
 │       └── routes/             # Pages SvelteKit
 ├── k8s/                        # Manifests Kubernetes/OpenShift
-│   ├── 00-namespace.yaml       # Namespace "todolist"
 │   ├── 01-secrets.yaml         # Secrets chiffrés (BDD, JWT)
 │   ├── 02-configmap.yaml       # Config non-sensible
 │   ├── 03-postgres.yaml        # StatefulSet + PVC + Service
