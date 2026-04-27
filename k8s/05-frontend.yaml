@@ -1,4 +1,3 @@
-# Deployment: 2 replicas du frontend SvelteKit.
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -16,8 +15,8 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: todolist-frontend:latest
-          imagePullPolicy: IfNotPresent
+          image: harbor.kakor.ovh/ipim2il/groupe-2/frontend:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 3000
           env:
@@ -45,8 +44,7 @@ spec:
               memory: "256Mi"
               cpu: "300m"
 ---
-# Service NodePort: expose le frontend sur un port de chaque nœud du cluster,
-# accessible depuis l'extérieur (navigateur) via http://NODE_IP:30300
+# Service ClusterIP : le frontend est exposé vers l'extérieur via la Route, pas directement.
 apiVersion: v1
 kind: Service
 metadata:
@@ -58,5 +56,23 @@ spec:
   ports:
     - port: 3000
       targetPort: 3000
-      nodePort: 30300
-  type: NodePort
+  type: ClusterIP
+---
+# Route OpenShift : objet spécifique OpenShift qui remplace l'Ingress standard.
+# Crée automatiquement une URL HTTPS publique sur le domaine du cluster.
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: frontend
+  namespace: todolist
+spec:
+  host: todolist-groupe-2.apps.openshift.kakor.ovh
+  to:
+    kind: Service
+    name: frontend-service
+    weight: 100
+  port:
+    targetPort: 3000
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Redirect
